@@ -1,4 +1,4 @@
 grunt-bredele
 =============
 
-This is a test with sublime text 2 git. Test branch develop :)
+This is the grunt.js fille I use for my web projects.
