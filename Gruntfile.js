@@ -33,7 +33,28 @@ module.exports = function (grunt) {
         }
       }
     },
-    // Configuration to be run (and then tested)
+    jshint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        eqnull: true,
+        browser: true,
+      },
+      globals: {
+        require: true,
+        define: true
+      }
+    },
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: "src/js",
+          mainConfigFile: "src/js/config.js",
+          name : "config",
+          out: "dist/js/optimized.js"
+        }
+      }
+    },
     regarde: {
       sass : {
         files: 'src/theme/sass/*.scss',
@@ -42,6 +63,10 @@ module.exports = function (grunt) {
       css: {
         files: 'src/theme/css/*.css',
         tasks: ['livereload']
+      },
+      js : {
+        files : 'src/js/**/*.js',
+        tasks : ['jshint']
       }
     }
 
@@ -52,5 +77,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-livereload');
 
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+
   grunt.registerTask('default', ['livereload-start', 'connect', 'regarde']);
+  grunt.registerTask('build', ['requirejs']);
 };
