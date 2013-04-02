@@ -8,6 +8,21 @@ var folderMount = function folderMount(connect, point) {
 
 module.exports = function (grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    concat: {
+      options: {
+        //stripBanners: true, //remove other banners
+        banner: '/* <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+            '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+            '   Copyright (c) <%= grunt.template.today("yyyy") %>, <%= pkg.author %>.\n' +
+            '   Licensed : <%= _.pluck(pkg.licenses, "type").join(", ") %> \n' +
+            '   see : <%= pkg.url %>*/\n'
+      },
+     dist: {
+        src: ['dist/js/optimized.js'],
+        dest: 'dist/js/optimized.js'
+      }
+    },
     livereload: {
       port: 8989 
     },
@@ -34,6 +49,7 @@ module.exports = function (grunt) {
       }
     },
     jshint: {
+      all : ['src/js/**/*.js', '!src/js/lib/**/*.js'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -51,7 +67,11 @@ module.exports = function (grunt) {
           baseUrl: "src/js",
           mainConfigFile: "src/js/config.js",
           name : "config",
-          out: "dist/js/optimized.js"
+          out: "dist/js/optimized.js",
+          paths : {
+            amd : "lib/require"
+          },
+          include : "amd"
         }
       }
     },
@@ -79,7 +99,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.registerTask('default', ['livereload-start', 'connect', 'regarde']);
-  grunt.registerTask('build', ['requirejs']);
+  grunt.registerTask('build', ['requirejs', 'concat']);
 };

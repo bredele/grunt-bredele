@@ -1,4 +1,3 @@
 requirejs.config({
-	baseUrl : "src/js",
-	deps : []
+	baseUrl : "src/js"
 });
