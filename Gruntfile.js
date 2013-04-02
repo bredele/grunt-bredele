@@ -20,6 +20,7 @@ module.exports = function (grunt) {
       },
      dist: {
         src: ['dist/js/optimized.js'],
+        //change for "dist/js/<%= pkg.name %>-<%= pkg.version %>.js"
         dest: 'dist/js/optimized.js'
       }
     },
